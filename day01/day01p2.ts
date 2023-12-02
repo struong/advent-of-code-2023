@@ -4,47 +4,51 @@ const filePath = './day01/input.txt'
 
 try {
   const fileData: string = fs.readFileSync(filePath, 'utf-8')
-  // const lines: string[] = fileData.split('\n')
+  const lines: string[] = fileData.split('\n')
 
   // Test case
-  const lines: string[] = `two1nine
-    eightwothree
-    abcone2threexyz
-    xtwone3four
-    4nineeightseven2
-    zoneight234
-    7pqrstsixteen`
-    .trim()
-    .split('\n')
+  // const lines: string[] = `two1nine
+  //   eightwothree
+  //   abcone2threexyz
+  //   xtwone3four
+  //   4nineeightseven2
+  //   zoneight234
+  //   7pqrstsixteen`
+  //   .trim()
+  //   .split('\n')
 
   let sum: number = 0
 
   const numberWordsToDigits = {
-    one: '1',
-    two: '2',
-    three: '3',
-    four: '4',
-    five: '5',
-    six: '6',
-    seven: '7',
-    eight: '8',
-    nine: '9',
+    one: 'o1e',
+    two: 't2o',
+    three: 't3e',
+    four: 'f4r',
+    five: 'f5e',
+    six: 's6x',
+    seven: 's7n',
+    eight: 'e8t',
+    nine: 'n9e',
   }
 
-  for (const line of lines) {
-    const numberRegex = /\d|one|two|three|four|five|six|seven|eight|nine/g
+  for (const originalLine of lines) {
+    let line = originalLine
+    for (const word of Object.keys(numberWordsToDigits)) {
+      const regex = new RegExp(word, 'g');
+      line = line.replace(regex, numberWordsToDigits[word])
+    }
 
-    // Find all matches
-    const allMatches = line.match(numberRegex)
+    const firstMatch = /\d/
+    const lastNumberRegex = /\d(?=[^\d]*$)/
 
-    if (allMatches) {
-      const firstAsDigit: string = numberWordsToDigits[allMatches[0]] || allMatches[0]
-      const lastAsDigit: string =
-        numberWordsToDigits[allMatches[allMatches.length - 1]] || allMatches[allMatches.length - 1]
+    const firstNumber = line.match(firstMatch)
+    const lastNumber = line.match(lastNumberRegex)
 
-      console.log(`values: (${firstAsDigit}, ${lastAsDigit})`)
+    if (firstNumber && lastNumber) {
+      console.log(`firstNumber: ${firstNumber}`)
+      console.log(`lastNumber: ${lastNumber}`)
 
-      sum += parseInt(firstAsDigit + lastAsDigit)
+      sum += parseInt(firstNumber[0] + lastNumber[0])
     } else {
       console.log(`No match for line: ${line}`)
     }
