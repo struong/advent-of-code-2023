@@ -21,6 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@datastructures-js/deque": "^1.0.4",
     "@digitak/esrun": "^3.2.25",
     "eslint": "^8.54.0",
     "eslint-config-prettier": "^9.0.0",
